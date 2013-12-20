@@ -1,0 +1,15 @@
+--- apreq2-config.in~	2005-04-16 05:19:36.000000000 +0300
++++ apreq2-config.in	2005-12-08 22:27:47.000000000 +0200
+@@ -173,8 +173,10 @@
+     ;;
+     --link-ld)
+     if test "$location" = "installed"; then
+-        ### avoid using -L if libdir is a "standard" location like /usr/lib
+-        flags="$flags -L$libdir -l$APREQ_LIBNAME"
++        if test "$libdir" != "/usr/lib"; then
++            flags="$flags -L$libdir"
++        fi
++        flags="$flags -l$APREQ_LIBNAME"
+     else
+         flags="$flags -L$thisdir/library/.libs -l$APREQ_LIBNAME"
+     fi
