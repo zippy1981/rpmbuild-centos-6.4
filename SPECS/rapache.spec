@@ -10,10 +10,11 @@ Source0:	https://codeload.github.com/jeffreyhorner/rapache-1.2.4.tar.gz
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 %define apxs `rpm -ql httpd-devel |egrep s?bin\/apxs2?$`
+%define apreq2config `rpm -ql libapreq2-devel |egrep s?bin\/apreq2-config$`
 %define apache_libexecdir %(%{apxs} -q LIBEXECDIR)
 
-BuildRequires:	httpd-devel >= 2.2.0, R-devel
-Requires:	httpd >= 2.2.0, R-core
+BuildRequires:	httpd-devel >= 2.2.0, R-devel, libapreq2-devel
+Requires:	httpd >= 2.2.0, R-core, libapreq2
 
 %description
 
@@ -23,7 +24,7 @@ Requires:	httpd >= 2.2.0, R-core
 
 
 %build
-%configure --with-apache2-apxs=%{apxs}
+%configure --with-apreq2-config=%{apreq2config} --with-apache2-apxs=%{apxs} 
 make %{?_smp_mflags}
 
 
